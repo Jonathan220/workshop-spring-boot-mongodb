@@ -1,6 +1,7 @@
 package com.jonathan.workshopmongodb.resources;
 
 import com.jonathan.workshopmongodb.domain.User;
+import com.jonathan.workshopmongodb.dtos.UserDTO;
 import com.jonathan.workshopmongodb.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,8 +20,9 @@ public class UserResource {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll(){
+    public ResponseEntity<List<UserDTO>> findAll(){
         List<User> list = userService.findAll();
-        return ResponseEntity.status(HttpStatus.OK).body(list);
+        List<UserDTO> listDTO = list.stream().map(UserDTO::new).toList();
+        return ResponseEntity.status(HttpStatus.OK).body(listDTO);
     }
 }
